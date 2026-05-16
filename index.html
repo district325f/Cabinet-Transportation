@@ -229,7 +229,7 @@
             </select>
         </div>
 
-        <button type="submit" class="submit-btn">विवरण बुझाउनुहोस्</button>
+        <button type="submit" id="submitBtn" class="submit-btn">विवरण बुझाउनुहोस्</button>
     </form>
 
     <div class="note-box" id="infoNote">
@@ -284,6 +284,10 @@
     function handleSubmit(event) {
         event.preventDefault();
         
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.innerText = "पठाइँदैछ...";
+        submitBtn.disabled = true;
+
         const fullName = document.getElementById('fullName').value;
         const designation = document.getElementById('designation').value;
         const contactNo = document.getElementById('contactNo').value;
@@ -299,24 +303,53 @@
             routeTime = selectedOption.getAttribute('data-time');
         }
 
-        // तपाईँले भन्नुभए अनुसार अनावश्यक भाग हटाइएको नयाँ म्यासेज फर्म्याट
-        let whatsappMessage = `नमस्ते लायन मोहन अर्याल ज्यू,\n\n`;
-        whatsappMessage += `*Cabinet Schooling (2026-2027)*\n`;
-        whatsappMessage += `*Transportation Management Details*\n\n`;
-        whatsappMessage += `👤 *नाम:* ${fullName}\n`;
-        whatsappMessage += `🎖️ *पद:* ${designation}\n`;
-        whatsappMessage += `📞 *सम्पर्क नं:* ${contactNo}\n`;
-        whatsappMessage += `🚌 *यातायात आवश्यक:* ${needTransport === 'yes' ? 'छ' : 'छैन'}\n`;
-        
-        if (needTransport === 'yes') {
-            whatsappMessage += `📍 *भेला हुने स्थान:* ${locationName}\n`;
-            whatsappMessage += `⏰ *समय:* ${routeTime}\n`;
-        }
+        // १. गुगल सिटमा डाटा पठाउने तयारी (तपाईँको वेब एपको युआरएल तल हाल्नुहोस्)
+        const googleWebAppUrl = "https://script.google.com/macros/s/AKfycbwPgKJ0q4kZKkkyHzj4MkEim6W9x3uY6gTmDblBG9hRUjPvzyZY-eQuu3lYIwKw6WU/exec"; 
 
-        const targetNumber = "9779851165500";
-        const whatsappUrl = `https://api.whatsapp.com/send?phone=${targetNumber}&text=${encodeURIComponent(whatsappMessage)}`;
-        
-        window.open(whatsappUrl, '_blank');
+        const formData = {
+            fullName: fullName,
+            designation: designation,
+            contactNo: contactNo,
+            location: needTransport === 'yes' ? locationName + " (" + routeTime + ")" : "आवश्यकता छैन"
+        };
+
+        // सिटमा डाटा अटो अपडेट गर्न API पठाएको
+        fetch(googleWebAppUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        })
+        .then(() => {
+            // २. सिटमा सेभ भइसकेपछि ह्वाट्सएप म्यासेज तयार गर्ने र खोल्ने
+            let whatsappMessage = `नमस्ते लायन मोहन अर्याल ज्यू,\n\n`;
+            whatsappMessage += `*Cabinet Schooling (2026-2027)*\n`;
+            whatsappMessage += `*Transportation Management Details*\n\n`;
+            whatsappMessage += `👤 *नाम:* ${fullName}\n`;
+            whatsappMessage += `🎖️ *पद:* ${designation}\n`;
+            whatsappMessage += `📞 *सम्पर्क नं:* ${contactNo}\n`;
+            whatsappMessage += `🚌 *यातायात आवश्यक:* ${needTransport === 'yes' ? 'छ' : 'छैन'}\n`;
+            
+            if (needTransport === 'yes') {
+                whatsappMessage += `📍 *भेला हुने स्थान:* ${locationName}\n`;
+                whatsappMessage += `⏰ *समय:* ${routeTime}\n`;
+            }
+
+            const targetNumber = "9779851165500";
+            const whatsappUrl = `https://api.whatsapp.com/send?phone=${targetNumber}&text=${encodeURIComponent(whatsappMessage)}`;
+            
+            window.open(whatsappUrl, '_blank');
+            
+            // बटन पूर्ववत् गर्ने
+            submitBtn.innerText = "विवरण बुझाउनुहोस्";
+            submitBtn.disabled = false;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("डाटा सिटमा पठाउन समस्या भयो । कृपया पुनः प्रयास गर्नुहोस् ।");
+            submitBtn.innerText = "विवरण बुझाउनुहोस्";
+            submitBtn.disabled = false;
+        });
     }
 </script>
 
