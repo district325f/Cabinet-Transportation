@@ -247,7 +247,7 @@
         const noteText = document.getElementById('dynamicNoteText');
         
         if (needTransport === 'no') {
-            noteText.innerHTML = "तपाईँले यातायातको आवश्यकता पर्दैन भनी छनौट गर्नुभएको छ। धन्यवाद!";
+            noteText.innerHTML = "तपाईँले यातायातको आवश्यकता पर्दैन भनी छनौट गर्नुभएको छ । धन्यवाद !";
             return;
         }
 
@@ -256,13 +256,12 @@
             const locationName = selectedOption.text;
             const routeTime = selectedOption.getAttribute('data-time');
             
-            noteText.innerHTML = `कृपया आफुले छनौट गरेको स्थान <strong>"${locationName}"</strong> मा तोकिएको समय <span class="highlight-time">${routeTime}</span> मा मेला भई दिनुहुन अनुरोध गर्दछौँ। साथै यातायात सम्बन्धि जानकारीका लागि <strong>लायन मोहन अर्याल (<a href="tel:9851165500">९८५११६५५००</a>)</strong> लाई सम्पर्क गर्नुहोला।`;
+            noteText.innerHTML = `कृपया आफुले छनौट गरेको स्थान <strong>"${locationName}"</strong> मा तोकिएको समय <span class="highlight-time">${routeTime}</span> मा मेला भई दिनुहुन अनुरोध गर्दछौँ । साथै यातायात सम्बन्धि जानकारीका लागि <strong>लायन मोहन अर्याल (<a href="tel:9851165500">९८५११६५५००</a>)</strong> लाई सम्पर्क गर्नुहोला ।`;
         } else {
-            noteText.innerHTML = "कृपया आफूलाई पायक पर्ने स्थान छनौट गर्नुहोस्। त्यसपछि यहाँ तोकिएको समय तालिका उपलब्ध हुनेछ।";
+            noteText.innerHTML = "कृपया आफूलाई पायक पर्ने स्थान छनौट गर्नुहोस् । त्यसपछि यहाँ तोकिएको समय तालिका उपलब्ध हुनेछ ।";
         }
     }
 
-    // विवरण बुझाउँदा WhatsApp मा डाइरेक्ट गर्ने मुख्य प्रकार्य
     function handleSubmit(event) {
         event.preventDefault();
         
@@ -281,26 +280,32 @@
             routeTime = selectedOption.getAttribute('data-time');
         }
 
-        // WhatsApp म्यासेजको ढाँचा (Format)
-        let whatsappMessage = `*Cabinet Schooling (2026-2027)*\n`;
-        whatsappMessage += `*Transportation Management Details*\n\n`;
+        // ह्वाट्सएप म्यासेजमा माथिल्लो विवरण (Header Detail) थप गरिएको ढाँचा
+        let whatsappMessage = `🦁 *Lions Clubs International*\n`;
+        whatsappMessage += `📍 *District 325 F, Nepal*\n`;
+        whatsappMessage += `✨ *Cabinet Schooling (2026-2027)*\n`;
+        whatsappMessage += `🚌 *Transportation Management Details*\n`;
+        whatsappMessage += `───────────────────\n\n`;
         whatsappMessage += `👤 *नाम:* ${fullName}\n`;
         whatsappMessage += `🎖️ *पद:* ${designation}\n`;
         whatsappMessage += `📞 *सम्पर्क नं:* ${contactNo}\n`;
-        whatsappMessage += `🚌 *यातायात आवश्यक:* ${needTransport === 'yes' ? 'छ' : 'छैन'}\n`;
+        whatsappMessage += `📌 *यातायात आवश्यक:* ${needTransport === 'yes' ? 'छ' : 'छैन'}\n`;
         
         if (needTransport === 'yes') {
             whatsappMessage += `📍 *भेला हुने स्थान:* ${locationName}\n`;
             whatsappMessage += `⏰ *समय:* ${routeTime}\n`;
         }
+        
+        whatsappMessage += `\n───────────────────\n`;
+        whatsappMessage += `🙏 _थैंक यू! विवरण प्राप्त भयो।_`;
 
         // लायन मोहन अर्यालको नम्बर (नेपालको कोड ९७७ सहित)
         const targetNumber = "9779851165500";
         
-        // WhatsApp URL तयार पारेको
+        // WhatsApp URL
         const whatsappUrl = `https://api.whatsapp.com/send?phone=${targetNumber}&text=${encodeURIComponent(whatsappMessage)}`;
         
-        // म्यासेज पठाउन नयाँ ट्याबमा WhatsApp खोल्ने
+        // नयाँ ट्याबमा WhatsApp खोल्ने
         window.open(whatsappUrl, '_blank');
     }
 </script>
