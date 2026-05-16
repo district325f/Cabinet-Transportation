@@ -300,7 +300,6 @@
 </div>
 
 <script>
-    // लोकल स्टोरेज ब्याकअप चेक (ब्राउजर सफा नगरेसम्म ब्लक गर्ने)
     window.onload = function() {
         if (localStorage.getItem('cabinetFormSubmitted') === 'true') {
             showAlreadySubmittedMessage();
@@ -358,6 +357,7 @@
         event.preventDefault();
         
         const submitBtn = document.getElementById('submitBtn');
+        const originalBtnText = submitBtn.innerText;
         submitBtn.innerText = "जाँच गरिँदैछ...";
         submitBtn.disabled = true;
 
@@ -376,8 +376,8 @@
             routeTime = selectedOption.getAttribute('data-time');
         }
 
-        // नयाँ कपी गरिएको Google Web App URL यहाँ सुनिश्चित गर्नुहोस् (मोड 'cors' वास्तबिक रेस्पोन्स पाउनको लागि)
-        const googleWebAppUrl = "https://script.google.com/macros/s/AKfycbwPgKJ0q4kZKkkyHzj4MkEim6W9x3uY6gTmDblBG9hRUjPvzyZY-eQuu3lYIwKw6WU/exec"; 
+        // स्टेप १ बाट प्राप्त भएको नयाँ Deployment URL यहाँ राख्नुहोस्
+        const googleWebAppUrl = "तपाईंको_नयाँ_गुगल_वेब_एप_युआरएल_यहाँ_पेस्ट_गर्नुहोस्"; 
 
         const formData = {
             fullName: fullName,
@@ -386,7 +386,7 @@
             location: needTransport === 'yes' ? locationName + " (" + routeTime + ")" : "आवश्यकता छैन"
         };
 
-        // पहिले सिटमा नम्बर युनिक छ कि छैन भनेर 'POST' गरेर रेस्पोन्स लिने
+        // पहिले ब्याकइन्डमा पठाई डुप्लिकेट नम्बर जाँच गर्ने
         fetch(googleWebAppUrl, {
             method: 'POST',
             body: JSON.stringify(formData)
@@ -394,12 +394,12 @@
         .then(response => response.json())
         .then(res => {
             if (res.status === "duplicate") {
-                // यदि सिटमा नम्बर भेटियो भने ह्वाट्सएप नखोली सिधै ब्लक स्क्रिन देखाउने
-                alert("यो मोबाइल नम्बर पहिले नै दर्ता भइसकेको छ !");
+                // यदि नम्बर पहिले नै सिटमा उपलब्ध छ भने अलर्ट दिने, ह्वाट्सएप नखोल्ने र ब्लक स्क्रिन देखाउने
+                alert("⚠️ यो मोबाइल नम्बर पहिले नै दर्ता भइसकेको छ! त्यसैले ह्वाट्सएप सन्देश पठाइने छैन।");
                 localStorage.setItem('cabinetFormSubmitted', 'true');
                 showAlreadySubmittedMessage();
             } else {
-                // यदि सिटमा नयाँ नम्बर हो भने मात्र तुरुन्त ह्वाट्सएप म्यासेज खोल्ने
+                // यदि नम्बर नयाँ छ भने मात्र ह्वाट्सएप म्यासेज विन्डो खोल्ने
                 localStorage.setItem('cabinetFormSubmitted', 'true');
                 
                 let whatsappMessage = `नमस्ते लायन मोहन अर्याल ज्यू,\n\n`;
@@ -424,13 +424,9 @@
         })
         .catch(error => {
             console.error('Error:', error);
-            // नेटवर्कको समस्या हुँदा पनि सुरक्षित रूपमा ह्वाट्सएप खोल्ने ब्याकअप व्यवस्था
-            alert("सिट सर्भर व्यस्त छ, विवरण ह्वाट्सएपमा पठाउनुहोस्।");
-            
-            let whatsappMessage = `नमस्ते लायन मोहन अर्याल ज्यू,\n\n*Cabinet Schooling (2026-2027)*\n👤 *नाम:* ${fullName}\n📞 *सम्पर्क नं:* ${contactNo}\n🚌 *स्थान:* ${needTransport === 'yes' ? locationName : 'आवश्यकता छैन'}`;
-            const whatsappUrl = `https://api.whatsapp.com/send?phone=9779851165500&text=${encodeURIComponent(whatsappMessage)}`;
-            window.open(whatsappUrl, '_blank');
-            showAlreadySubmittedMessage();
+            submitBtn.innerText = originalBtnText;
+            submitBtn.disabled = false;
+            alert("सर्भरसँग जडान हुन सकेन। कृपया इन्टरनेट जाँच गरी पुनः प्रयास गर्नुहोला।");
         });
     }
 </script>
