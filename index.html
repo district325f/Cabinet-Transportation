@@ -168,6 +168,20 @@
         a:hover {
             text-decoration: underline;
         }
+
+        .footer-credit {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px dashed var(--border-color);
+            text-align: center;
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+        
+        .footer-credit a {
+            color: #1877f2;
+        }
     </style>
 </head>
 <body>
@@ -222,6 +236,11 @@
         <div class="note-title">* पुनश्च:</div>
         <span id="dynamicNoteText">कृपया फारम भर्नुहोस् । तपाईँले छनौट गर्नुभएको स्थानको आधारमा यहाँ समय र सम्पर्क विवरण देखापर्नेछ ।</span>
     </div>
+
+    <div class="footer-credit">
+        Design by: <a href="https://facebook.com/nirajan.aryal" target="_blank">Nirajan Aryal</a><br>
+        📞 <a href="tel:9851113811">9851113811</a>
+    </div>
 </div>
 
 <script>
@@ -256,7 +275,7 @@
             const locationName = selectedOption.text;
             const routeTime = selectedOption.getAttribute('data-time');
             
-            noteText.innerHTML = `कृपया आफुले छनौट गरेको स्थान <strong>"${locationName}"</strong> मा तोकिएको समय <span class="highlight-time">${routeTime}</span> मेला भईदिनुहुन अनुरोध गर्दछौँ । साथै यातायात सम्बन्धि थप जानकारीका लागि <strong>लायन मोहन अर्याल (<a href="tel:9851165500">९८५११६५५००</a>)</strong> लाई सम्पर्क गर्नुहोला ।`;
+            noteText.innerHTML = `कृपया आफुले छनौट गरेको स्थान <strong>"${locationName}"</strong> मा तोकिएको समय <span class="highlight-time">${routeTime}</span> मेला भई दिनुहुन अनुरोध गर्दछौँ । साथै यातायात सम्बन्धि जानकारीका लागि <strong>लायन मोहन अर्याल (<a href="tel:9851165500">९८५११६५५००</a>)</strong> लाई सम्पर्क गर्नुहोला ।`;
         } else {
             noteText.innerHTML = "कृपया आफूलाई पायक पर्ने स्थान छनौट गर्नुहोस् । त्यसपछि यहाँ तोकिएको समय तालिका उपलब्ध हुनेछ ।";
         }
@@ -280,33 +299,23 @@
             routeTime = selectedOption.getAttribute('data-time');
         }
 
-        // ह्वाट्सएप म्यासेजको नयाँ ढाँचा (सम्बोधन र हेडर सहित)
+        // तपाईँले भन्नुभए अनुसार अनावश्यक भाग हटाइएको नयाँ म्यासेज फर्म्याट
         let whatsappMessage = `नमस्ते लायन मोहन अर्याल ज्यू,\n\n`;
-        whatsappMessage += `🦁 *Lions Clubs International*\n`;
-        whatsappMessage += `📍 *District 325 F, Nepal*\n`;
-        whatsappMessage += `✨ *Cabinet Schooling (2026-2027)*\n`;
-        whatsappMessage += `🚌 *Transportation Management Details*\n`;
-        whatsappMessage += `───────────────────\n\n`;
+        whatsappMessage += `*Cabinet Schooling (2026-2027)*\n`;
+        whatsappMessage += `*Transportation Management Details*\n\n`;
         whatsappMessage += `👤 *नाम:* ${fullName}\n`;
         whatsappMessage += `🎖️ *पद:* ${designation}\n`;
         whatsappMessage += `📞 *सम्पर्क नं:* ${contactNo}\n`;
-        whatsappMessage += `📌 *यातायात आवश्यक:* ${needTransport === 'yes' ? 'छ' : 'छैन'}\n`;
+        whatsappMessage += `🚌 *यातायात आवश्यक:* ${needTransport === 'yes' ? 'छ' : 'छैन'}\n`;
         
         if (needTransport === 'yes') {
             whatsappMessage += `📍 *भेला हुने स्थान:* ${locationName}\n`;
             whatsappMessage += `⏰ *समय:* ${routeTime}\n`;
         }
-        
-        whatsappMessage += `\n───────────────────\n`;
-        whatsappMessage += `🙏 _थैंक यू! विवरण प्राप्त भयो।_`;
 
-        // लायन मोहन अर्यालको नम्बर (नेपालको कोड ९७७ सहित)
         const targetNumber = "9779851165500";
-        
-        // WhatsApp URL
         const whatsappUrl = `https://api.whatsapp.com/send?phone=${targetNumber}&text=${encodeURIComponent(whatsappMessage)}`;
         
-        // नयाँ ट्याबमा WhatsApp खोल्ने
         window.open(whatsappUrl, '_blank');
     }
 </script>
