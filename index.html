@@ -316,13 +316,11 @@
 </div>
 
 <script>
-    // अब पेज लोड हुँदा सधैं पुरै डिजाइन (फारम) नै देखिन्छ
-
     function showAlreadySubmittedMessage() {
         document.getElementById('formBody').innerHTML = `
             <div class="already-submitted">
                 <h2>⚠️ विवरण अस्विकृत !</h2>
-                <p>तपाईँको मोबाइल नम्बरबाट विवरण पहिले नै बुझाइसकिएको छ।</p>
+                <p>तपाईँको मोबाइल नम्बर वा यो डिभाइसबाट विवरण पहिले नै बुझाइसकिएको छ।</p>
                 <p style="font-size:14px; color:#64748b; margin-top:24px;">यदि केही विवरण सच्याउनु पर्ने भएमा व्यवस्थापकलाई सम्पर्क गर्नुहोला।</p>
             </div>
         `;
@@ -388,7 +386,7 @@
             routeTime = selectedOption.getAttribute('data-time');
         }
 
-        // आफ्नो नयाँ Google Deployment URL यहाँ पेस्ट गर्नुहोस्
+        // ⚠️ स्टेप २ बाट कपी गर्नुभएको नयाँ Deployment URL यहाँ हाल्नुहोस्
         const googleWebAppUrl = "https://script.google.com/macros/s/AKfycbwPgKJ0q4kZKkkyHzj4MkEim6W9x3uY6gTmDblBG9hRUjPvzyZY-eQuu3lYIwKw6WU/exec"; 
 
         const formData = {
@@ -406,10 +404,10 @@
         .then(response => response.json())
         .then(res => {
             if (res.status === "duplicate") {
-                // १. यदि डाटा डुप्लिकेट भएमा ह्वाट्सएप विन्डो नखोली सिधै फोटो अनुसारको ब्लक मेसेज दिने
+                // यदि नम्बर पहिले नै सिटमा उपलब्ध छ भने ह्वाट्सएप विन्डो नखोली सिधै ब्लक स्क्रिन देखाउने
                 showAlreadySubmittedMessage();
             } else {
-                // २. यदि नम्बर नयाँ छ भने मात्र ह्वाट्सएप खुल्ने र फारम क्लियर/ब्लक स्टेटमा जाने
+                // यदि नम्बर नयाँ छ भने मात्र ह्वाट्सएप खुल्ने
                 let whatsappMessage = `नमस्ते लायन मोहन अर्याल ज्यू,\n\n`;
                 whatsappMessage += `*Cabinet Schooling (2026-2027)*\n`;
                 whatsappMessage += `*Transportation Management Details*\n\n`;
@@ -428,19 +426,18 @@
                 
                 window.open(whatsappUrl, '_blank');
                 
-                // सफलतापूर्वक विवरण गएपछि धन्यवाद मेसेज वा फारम रिसेट गर्ने
+                // फारम क्लियर गर्ने
                 document.getElementById('transportForm').reset();
                 toggleLocationSelect();
                 submitBtn.innerText = originalBtnText;
                 submitBtn.disabled = false;
-                alert("विवरण सफलतापूर्वक दर्ता भयो र ह्वाट्सएप खोलिएको छ।");
             }
         })
         .catch(error => {
             console.error('Error:', error);
             submitBtn.innerText = originalBtnText;
             submitBtn.disabled = false;
-            alert("सर्भर व्यस्त छ। कृपया केही बेरमा पुनः प्रयास गर्नुहोला।");
+            alert("सर्भरसँग कनेक्सन हुन सकेन। कृपया पुनः प्रयास गर्नुहोला।");
         });
     }
 </script>
