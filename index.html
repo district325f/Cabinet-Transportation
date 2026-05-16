@@ -165,10 +165,6 @@
             box-shadow: 0 10px 15px -3px rgba(30, 58, 138, 0.25), 0 4px 6px -4px rgba(30, 58, 138, 0.15);
         }
 
-        .submit-btn:active {
-            transform: translateY(1px);
-        }
-
         .submit-btn:disabled {
             background: #94a3b8;
             cursor: not-allowed;
@@ -203,6 +199,17 @@
             border: 1px solid #fca5a5;
             display: inline-block;
             margin: 0 2px;
+        }
+
+        .already-submitted {
+            text-align: center;
+            padding: 30px 10px;
+            color: #1e3a8a;
+        }
+        .already-submitted h2 {
+            font-size: 20px;
+            color: #dc2626;
+            margin-bottom: 12px;
         }
         
         a {
@@ -240,48 +247,50 @@
         <h3>Transportation Management</h3>
     </div>
 
-    <form id="transportForm" onsubmit="handleSubmit(event)">
-        <div class="form-group">
-            <label for="fullName">तपाईँको नाम: <span class="required">*</span></label>
-            <input type="text" id="fullName" placeholder="पुरा नाम लेख्नुहोस्" required>
+    <div id="formBody">
+        <form id="transportForm" onsubmit="handleSubmit(event)">
+            <div class="form-group">
+                <label for="fullName">तपाईँको नाम: <span class="required">*</span></label>
+                <input type="text" id="fullName" placeholder="पुरा नाम लेख्नुहोस्" required>
+            </div>
+
+            <div class="form-group">
+                <label for="designation">पद: <span class="required">*</span></label>
+                <input type="text" id="designation" placeholder="तपाईँको पद" required>
+            </div>
+
+            <div class="form-group">
+                <label for="contactNo">सम्पर्क नं.: <span class="required">*</span></label>
+                <input type="text" id="contactNo" placeholder="मोबाइल नम्बर" pattern="[0-9]{10}" title="कृपया १० अंकको मोबाइल नम्बर राख्नुहोस्" required>
+            </div>
+
+            <div class="form-group">
+                <label for="needTransport">स्कुलिङमा जान यातायातको आवश्यकता छ ? <span class="required">*</span></label>
+                <select id="needTransport" onchange="toggleLocationSelect()" required>
+                    <option value="" disabled selected>--- छनौट गर्नुहोस् ---</option>
+                    <option value="yes">छ</option>
+                    <option value="no">छैन</option>
+                </select>
+            </div>
+
+            <div class="form-group conditional-section" id="locationGroup">
+                <label for="locationSelect">कृपया आफूलाई यातायातको सुविधाको लागि पायक पर्ने स्थान छनौट गर्नुहोस्: <span class="required">*</span></label>
+                <select id="locationSelect" onchange="updateNote()">
+                    <option value="" disabled selected>--- स्थान छनौट गर्नुहोस् ---</option>
+                    <option value="आराधना पेट्रोल पम्प, सिफल" data-time="६:४५ बजे">आराधना पेट्रोल पम्प, सिफल</option>
+                    <option value="नयाँ बानेश्वर चोक" data-time="७:०० बजे">नयाँ बानेश्वर चोक</option>
+                    <option value="कोटेश्वर चोक" data-time="७:१५ बजे">कोटेश्वर चोक</option>
+                    <option value="सातदोबाटो चोक" data-time="७:३० बजे">सातदोबाटो चोक</option>
+                </select>
+            </div>
+
+            <button type="submit" id="submitBtn" class="submit-btn">विवरण बुझाउनुहोस्</button>
+        </form>
+
+        <div class="note-box" id="infoNote">
+            <div class="note-title">* पुनश्च:</div>
+            <span id="dynamicNoteText">कृपया फारम भर्नुहोस् । तपाईँले छनौट गर्नुभएको स्थानको आधारमा यहाँ समय र सम्पर्क विवरण देखापर्नेछ ।</span>
         </div>
-
-        <div class="form-group">
-            <label for="designation">पद: <span class="required">*</span></label>
-            <input type="text" id="designation" placeholder="तपाईँको पद" required>
-        </div>
-
-        <div class="form-group">
-            <label for="contactNo">सम्पर्क नं.: <span class="required">*</span></label>
-            <input type="text" id="contactNo" placeholder="मोबाइल नम्बर" pattern="[0-9]{10}" title="कृपया १० अंकको मोबाइल नम्बर राख्नुहोस्" required>
-        </div>
-
-        <div class="form-group">
-            <label for="needTransport">स्कुलिङमा जान यातायातको आवश्यकता छ ? <span class="required">*</span></label>
-            <select id="needTransport" onchange="toggleLocationSelect()" required>
-                <option value="" disabled selected>--- छनौट गर्नुहोस् ---</option>
-                <option value="yes">छ</option>
-                <option value="no">छैन</option>
-            </select>
-        </div>
-
-        <div class="form-group conditional-section" id="locationGroup">
-            <label for="locationSelect">कृपया आफूलाई यातायातको सुविधाको लागि पायक पर्ने स्थान छनौट गर्नुहोस्: <span class="required">*</span></label>
-            <select id="locationSelect" onchange="updateNote()">
-                <option value="" disabled selected>--- स्थान छनौट गर्नुहोस् ---</option>
-                <option value="आराधना पेट्रोल पम्प, सिफल" data-time="६:४५ बजे">आराधना पेट्रोल पम्प, सिफल</option>
-                <option value="नयाँ बानेश्वर चोक" data-time="७:०० बजे">नयाँ बानेश्वर चोक</option>
-                <option value="कोटेश्वर चोक" data-time="७:१५ बजे">कोटेश्वर चोक</option>
-                <option value="सातदोबाटो चोक" data-time="७:३० बजे">सातदोबाटो चोक</option>
-            </select>
-        </div>
-
-        <button type="submit" id="submitBtn" class="submit-btn">विवरण बुझाउनुहोस्</button>
-    </form>
-
-    <div class="note-box" id="infoNote">
-        <div class="note-title">* पुनश्च:</div>
-        <span id="dynamicNoteText">कृपया फारम भर्नुहोस् । तपाईँले छनौट गर्नुभएको स्थानको आधारमा यहाँ समय र सम्पर्क विवरण देखापर्नेछ ।</span>
     </div>
 
     <div class="footer-credit">
@@ -291,6 +300,23 @@
 </div>
 
 <script>
+    // लोकल स्टोरेज ब्याकअप चेक (ब्राउजर सफा नगरेसम्म ब्लक गर्ने)
+    window.onload = function() {
+        if (localStorage.getItem('cabinetFormSubmitted') === 'true') {
+            showAlreadySubmittedMessage();
+        }
+    };
+
+    function showAlreadySubmittedMessage() {
+        document.getElementById('formBody').innerHTML = `
+            <div class="already-submitted">
+                <h2>⚠️ विवरण अस्विकृत !</h2>
+                <p>तपाईँको मोबाइल नम्बर वा यो डिभाइसबाट विवरण पहिले नै बुझाइसकिएको छ।</p>
+                <p style="font-size:13px; color:#64748b; margin-top:20px;">यदि केही विवरण सच्याउनु पर्ने भएमा व्यवस्थापकलाई सम्पर्क गर्नुहोला।</p>
+            </div>
+        `;
+    }
+
     function toggleLocationSelect() {
         const needTransport = document.getElementById('needTransport').value;
         const locationGroup = document.getElementById('locationGroup');
@@ -331,6 +357,10 @@
     function handleSubmit(event) {
         event.preventDefault();
         
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.innerText = "जाँच गरिँदैछ...";
+        submitBtn.disabled = true;
+
         const fullName = document.getElementById('fullName').value;
         const designation = document.getElementById('designation').value;
         const contactNo = document.getElementById('contactNo').value;
@@ -346,27 +376,7 @@
             routeTime = selectedOption.getAttribute('data-time');
         }
 
-        // ह्वाट्सएप म्यासेज विन्डो तुरुन्तै खोल्नको लागि विवरण तयार गर्ने
-        let whatsappMessage = `नमस्ते लायन मोहन अर्याल ज्यू,\n\n`;
-        whatsappMessage += `*Cabinet Schooling (2026-2027)*\n`;
-        whatsappMessage += `*Transportation Management Details*\n\n`;
-        whatsappMessage += `👤 *नाम:* ${fullName}\n`;
-        whatsappMessage += `🎖️ *पद:* ${designation}\n`;
-        whatsappMessage += `📞 *सम्पर्क नं:* ${contactNo}\n`;
-        whatsappMessage += `🚌 *यातायात आवश्यक:* ${needTransport === 'yes' ? 'छ' : 'छैन'}\n`;
-        
-        if (needTransport === 'yes') {
-            whatsappMessage += `📍 *भेला हुने स्थान:* ${locationName}\n`;
-            whatsappMessage += `⏰ *समय:* ${routeTime}\n`;
-        }
-
-        const targetNumber = "9779851165500";
-        const whatsappUrl = `https://api.whatsapp.com/send?phone=${targetNumber}&text=${encodeURIComponent(whatsappMessage)}`;
-        
-        // १. तत्कालै बिना कुनै ढिलाइ ह्वाट्सएप विन्डो खोल्ने (युजरलाई अलिकति पनि कुर्नु पर्दैन)
-        window.open(whatsappUrl, '_blank');
-
-        // २. ब्याकग्राउन्डमा गुगल सिटमा डाटा पठाउने (यसले ह्वाट्सएप खोल्नलाई रोक्दैन)
+        // नयाँ कपी गरिएको Google Web App URL यहाँ सुनिश्चित गर्नुहोस् (मोड 'cors' वास्तबिक रेस्पोन्स पाउनको लागि)
         const googleWebAppUrl = "https://script.google.com/macros/s/AKfycbwPgKJ0q4kZKkkyHzj4MkEim6W9x3uY6gTmDblBG9hRUjPvzyZY-eQuu3lYIwKw6WU/exec"; 
 
         const formData = {
@@ -376,15 +386,51 @@
             location: needTransport === 'yes' ? locationName + " (" + routeTime + ")" : "आवश्यकता छैन"
         };
 
-        // ब्याकग्राउन्ड फेच (असिंक्रोनस रूपमा डेटा पठाउने)
+        // पहिले सिटमा नम्बर युनिक छ कि छैन भनेर 'POST' गरेर रेस्पोन्स लिने
         fetch(googleWebAppUrl, {
             method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
         })
+        .then(response => response.json())
+        .then(res => {
+            if (res.status === "duplicate") {
+                // यदि सिटमा नम्बर भेटियो भने ह्वाट्सएप नखोली सिधै ब्लक स्क्रिन देखाउने
+                alert("यो मोबाइल नम्बर पहिले नै दर्ता भइसकेको छ !");
+                localStorage.setItem('cabinetFormSubmitted', 'true');
+                showAlreadySubmittedMessage();
+            } else {
+                // यदि सिटमा नयाँ नम्बर हो भने मात्र तुरुन्त ह्वाट्सएप म्यासेज खोल्ने
+                localStorage.setItem('cabinetFormSubmitted', 'true');
+                
+                let whatsappMessage = `नमस्ते लायन मोहन अर्याल ज्यू,\n\n`;
+                whatsappMessage += `*Cabinet Schooling (2026-2027)*\n`;
+                whatsappMessage += `*Transportation Management Details*\n\n`;
+                whatsappMessage += `👤 *नाम:* ${fullName}\n`;
+                whatsappMessage += `🎖️ *पद:* ${designation}\n`;
+                whatsappMessage += `📞 *सम्पर्क नं:* ${contactNo}\n`;
+                whatsappMessage += `🚌 *यातायात आवश्यक:* ${needTransport === 'yes' ? 'छ' : 'छैन'}\n`;
+                
+                if (needTransport === 'yes') {
+                    whatsappMessage += `📍 *भेला हुने स्थान:* ${locationName}\n`;
+                    whatsappMessage += `⏰ *समय:* ${routeTime}\n`;
+                }
+
+                const targetNumber = "9779851165500";
+                const whatsappUrl = `https://api.whatsapp.com/send?phone=${targetNumber}&text=${encodeURIComponent(whatsappMessage)}`;
+                
+                window.open(whatsappUrl, '_blank');
+                showAlreadySubmittedMessage();
+            }
+        })
         .catch(error => {
-            console.error('Background Sheet Error:', error);
+            console.error('Error:', error);
+            // नेटवर्कको समस्या हुँदा पनि सुरक्षित रूपमा ह्वाट्सएप खोल्ने ब्याकअप व्यवस्था
+            alert("सिट सर्भर व्यस्त छ, विवरण ह्वाट्सएपमा पठाउनुहोस्।");
+            
+            let whatsappMessage = `नमस्ते लायन मोहन अर्याल ज्यू,\n\n*Cabinet Schooling (2026-2027)*\n👤 *नाम:* ${fullName}\n📞 *सम्पर्क नं:* ${contactNo}\n🚌 *स्थान:* ${needTransport === 'yes' ? locationName : 'आवश्यकता छैन'}`;
+            const whatsappUrl = `https://api.whatsapp.com/send?phone=9779851165500&text=${encodeURIComponent(whatsappMessage)}`;
+            window.open(whatsappUrl, '_blank');
+            showAlreadySubmittedMessage();
         });
     }
 </script>
