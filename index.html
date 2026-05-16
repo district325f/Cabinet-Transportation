@@ -208,8 +208,8 @@
             <label for="locationSelect">कृपया आफूलाई यातायातको सुविधाको लागि पायक पर्ने स्थान छनौट गर्नुहोस्: <span class="required">*</span></label>
             <select id="locationSelect" onchange="updateNote()">
                 <option value="" disabled selected>--- स्थान छनौट गर्नुहोस् ---</option>
-                <option value="आराधना पेट्रोल पम्प" data-time="६:४५ बजे">आराधना पेट्रोल पम्प, सिफल</option>
-                <option value="नयाँ बानेश्वर, चोक" data-time="७:०० बजे">नयाँ बानेश्वर चोक</option>
+                <option value="आराधना पेट्रोल पम्प, सिफल" data-time="६:४५ बजे">आराधना पेट्रोल पम्प, सिफल</option>
+                <option value="नयाँ बानेश्वर चोक" data-time="७:०० बजे">नयाँ बानेश्वर चोक</option>
                 <option value="कोटेश्वर चोक" data-time="७:१५ बजे">कोटेश्वर चोक</option>
                 <option value="सातदोबाटो चोक" data-time="७:३० बजे">सातदोबाटो चोक</option>
             </select>
@@ -280,8 +280,9 @@
             routeTime = selectedOption.getAttribute('data-time');
         }
 
-        // ह्वाट्सएप म्यासेजमा माथिल्लो विवरण (Header Detail) थप गरिएको ढाँचा
-        let whatsappMessage = `🦁 *Lions Clubs International*\n`;
+        // ह्वाट्सएप म्यासेजको नयाँ ढाँचा (सम्बोधन र हेडर सहित)
+        let whatsappMessage = `नमस्ते लायन मोहन अर्याल ज्यू,\n\n`;
+        whatsappMessage += `🦁 *Lions Clubs International*\n`;
         whatsappMessage += `📍 *District 325 F, Nepal*\n`;
         whatsappMessage += `✨ *Cabinet Schooling (2026-2027)*\n`;
         whatsappMessage += `🚌 *Transportation Management Details*\n`;
