@@ -6,172 +6,219 @@
     <title>Cabinet Schooling - Transportation Management</title>
     <style>
         :root {
-            --primary-color: #1e3a8a;
-            --secondary-color: #3b82f6;
-            --background-color: #f3f4f6;
+            --primary-gradient: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+            --secondary-color: #2563eb;
+            --accent-color: #3b82f6;
+            --background-color: #f8fafc;
             --card-background: #ffffff;
-            --text-color: #1f2937;
-            --border-color: #d1d5db;
+            --text-color: #334155;
+            --border-color: #e2e8f0;
+            --focus-ring: rgba(37, 99, 235, 0.2);
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, 'Arial';
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--background-color);
+            background-image: radial-gradient(#e2e8f0 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
             color: var(--text-color);
             margin: 0;
-            padding: 20px;
+            padding: 24px 16px;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            box-sizing: border-box;
         }
 
         .form-container {
             background-color: var(--card-background);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+            padding: 40px 32px;
+            border-radius: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.03), 0 0 1px 0 rgba(0,0,0,0.1);
             width: 100%;
             max-width: 550px;
             box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+        }
+
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 24px 20px;
+                border-radius: 16px;
+            }
         }
 
         .header {
             text-align: center;
-            margin-bottom: 25px;
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 15px;
+            margin-bottom: 32px;
+            position: relative;
         }
 
         .header h1 {
-            color: var(--primary-color);
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin: 0;
-            font-size: 24px;
+            font-size: 28px;
+            font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         .header h2 {
-            color: var(--secondary-color);
-            margin: 5px 0 0 0;
-            font-size: 18px;
-            font-weight: 500;
+            color: #64748b;
+            margin: 6px 0 0 0;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .header h3 {
-            margin: 10px 0 0 0;
-            font-size: 15px;
-            color: #1e40af;
-            background: #dbeafe;
+            margin: 14px 0 0 0;
+            font-size: 14px;
+            color: #1d4ed8;
+            background: #eff6ff;
             display: inline-block;
-            padding: 5px 14px;
-            border-radius: 20px;
+            padding: 6px 18px;
+            border-radius: 9999px;
             font-weight: 600;
+            border: 1px solid #dbeafe;
+            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.04);
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: #374151;
-            font-size: 15px;
+            color: #1e293b;
+            font-size: 14.5px;
         }
 
         .required {
-            color: #dc2626;
+            color: #ef4444;
             margin-left: 3px;
         }
 
         input[type="text"], select {
             width: 100%;
-            padding: 11px 12px;
+            padding: 12px 16px;
             border: 1px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: 10px;
             font-size: 15px;
+            color: #0f172a;
+            background-color: #f8fafc;
             box-sizing: border-box;
-            transition: border-color 0.2s, box-shadow 0.2s;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         input[type="text"]:focus, select:focus {
             outline: none;
             border-color: var(--secondary-color);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px var(--focus-ring);
+        }
+
+        input[type="text"]::placeholder {
+            color: #94a3b8;
         }
 
         .conditional-section {
             display: none;
-            background-color: #f9fafb;
-            padding: 15px;
+            background-color: #f1f5f9;
+            padding: 20px;
             border-left: 4px solid var(--secondary-color);
-            border-radius: 4px;
-            margin-top: 15px;
-            animation: fadeIn 0.3s ease-in-out;
+            border-radius: 12px;
+            margin-top: 16px;
+            box-sizing: border-box;
+            animation: slideDown 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .submit-btn {
             width: 100%;
-            background-color: var(--primary-color);
+            background: var(--primary-gradient);
             color: white;
             border: none;
-            padding: 12px;
+            padding: 14px;
             font-size: 16px;
             font-weight: 600;
-            border-radius: 6px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: background-color 0.2s;
-            margin-top: 10px;
+            box-shadow: 0 4px 6px -1px rgba(30, 58, 138, 0.2), 0 2px 4px -1px rgba(30, 58, 138, 0.1);
+            transition: all 0.2s ease;
+            margin-top: 12px;
         }
 
         .submit-btn:hover {
-            background-color: #1d4ed8;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(30, 58, 138, 0.25), 0 4px 6px -4px rgba(30, 58, 138, 0.15);
+        }
+
+        .submit-btn:active {
+            transform: translateY(1px);
+        }
+
+        .submit-btn:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
         .note-box {
-            margin-top: 25px;
-            padding: 15px;
-            background-color: #fffbeb;
-            border: 1px solid #fef3c7;
-            border-left: 4px solid #f59e0b;
-            border-radius: 6px;
-            font-size: 14px;
+            margin-top: 28px;
+            padding: 16px 20px;
+            background-color: #fefce8;
+            border: 1px solid #fef08a;
+            border-left: 4px solid #eab308;
+            border-radius: 12px;
+            font-size: 14.5px;
             line-height: 1.6;
+            color: #451a03;
         }
 
         .note-title {
-            font-weight: bold;
-            color: #b45309;
-            margin-bottom: 5px;
+            font-weight: 700;
+            color: #854d0e;
+            margin-bottom: 6px;
         }
 
         .highlight-time {
-            font-weight: bold;
-            color: #dc2626;
+            font-weight: 700;
+            color: #b91c1c;
             background-color: #fee2e2;
-            padding: 2px 6px;
-            border-radius: 4px;
+            padding: 2px 8px;
+            border-radius: 6px;
+            border: 1px solid #fca5a5;
+            display: inline-block;
+            margin: 0 2px;
         }
         
         a {
             color: var(--secondary-color);
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 600;
+            transition: color 0.15s ease;
         }
         a:hover {
+            color: var(--accent-color);
             text-decoration: underline;
         }
 
         .footer-credit {
-            margin-top: 30px;
-            padding-top: 15px;
+            margin-top: 36px;
+            padding-top: 20px;
             border-top: 1px dashed var(--border-color);
             text-align: center;
             font-size: 13px;
@@ -284,10 +331,6 @@
     function handleSubmit(event) {
         event.preventDefault();
         
-        const submitBtn = document.getElementById('submitBtn');
-        submitBtn.innerText = "पठाइँदैछ...";
-        submitBtn.disabled = true;
-
         const fullName = document.getElementById('fullName').value;
         const designation = document.getElementById('designation').value;
         const contactNo = document.getElementById('contactNo').value;
@@ -303,7 +346,27 @@
             routeTime = selectedOption.getAttribute('data-time');
         }
 
-        // १. गुगल सिटमा डाटा पठाउने तयारी (तपाईँको वेब एपको युआरएल तल हाल्नुहोस्)
+        // ह्वाट्सएप म्यासेज विन्डो तुरुन्तै खोल्नको लागि विवरण तयार गर्ने
+        let whatsappMessage = `नमस्ते लायन मोहन अर्याल ज्यू,\n\n`;
+        whatsappMessage += `*Cabinet Schooling (2026-2027)*\n`;
+        whatsappMessage += `*Transportation Management Details*\n\n`;
+        whatsappMessage += `👤 *नाम:* ${fullName}\n`;
+        whatsappMessage += `🎖️ *पद:* ${designation}\n`;
+        whatsappMessage += `📞 *सम्पर्क नं:* ${contactNo}\n`;
+        whatsappMessage += `🚌 *यातायात आवश्यक:* ${needTransport === 'yes' ? 'छ' : 'छैन'}\n`;
+        
+        if (needTransport === 'yes') {
+            whatsappMessage += `📍 *भेला हुने स्थान:* ${locationName}\n`;
+            whatsappMessage += `⏰ *समय:* ${routeTime}\n`;
+        }
+
+        const targetNumber = "9779851165500";
+        const whatsappUrl = `https://api.whatsapp.com/send?phone=${targetNumber}&text=${encodeURIComponent(whatsappMessage)}`;
+        
+        // १. तत्कालै बिना कुनै ढिलाइ ह्वाट्सएप विन्डो खोल्ने (युजरलाई अलिकति पनि कुर्नु पर्दैन)
+        window.open(whatsappUrl, '_blank');
+
+        // २. ब्याकग्राउन्डमा गुगल सिटमा डाटा पठाउने (यसले ह्वाट्सएप खोल्नलाई रोक्दैन)
         const googleWebAppUrl = "https://script.google.com/macros/s/AKfycbwPgKJ0q4kZKkkyHzj4MkEim6W9x3uY6gTmDblBG9hRUjPvzyZY-eQuu3lYIwKw6WU/exec"; 
 
         const formData = {
@@ -313,42 +376,15 @@
             location: needTransport === 'yes' ? locationName + " (" + routeTime + ")" : "आवश्यकता छैन"
         };
 
-        // सिटमा डाटा अटो अपडेट गर्न API पठाएको
+        // ब्याकग्राउन्ड फेच (असिंक्रोनस रूपमा डेटा पठाउने)
         fetch(googleWebAppUrl, {
             method: 'POST',
             mode: 'no-cors',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
         })
-        .then(() => {
-            // २. सिटमा सेभ भइसकेपछि ह्वाट्सएप म्यासेज तयार गर्ने र खोल्ने
-            let whatsappMessage = `नमस्ते लायन मोहन अर्याल ज्यू,\n\n`;
-            whatsappMessage += `*Cabinet Schooling (2026-2027)*\n`;
-            whatsappMessage += `*Transportation Management Details*\n\n`;
-            whatsappMessage += `👤 *नाम:* ${fullName}\n`;
-            whatsappMessage += `🎖️ *पद:* ${designation}\n`;
-            whatsappMessage += `📞 *सम्पर्क नं:* ${contactNo}\n`;
-            whatsappMessage += `🚌 *यातायात आवश्यक:* ${needTransport === 'yes' ? 'छ' : 'छैन'}\n`;
-            
-            if (needTransport === 'yes') {
-                whatsappMessage += `📍 *भेला हुने स्थान:* ${locationName}\n`;
-                whatsappMessage += `⏰ *समय:* ${routeTime}\n`;
-            }
-
-            const targetNumber = "9779851165500";
-            const whatsappUrl = `https://api.whatsapp.com/send?phone=${targetNumber}&text=${encodeURIComponent(whatsappMessage)}`;
-            
-            window.open(whatsappUrl, '_blank');
-            
-            // बटन पूर्ववत् गर्ने
-            submitBtn.innerText = "विवरण बुझाउनुहोस्";
-            submitBtn.disabled = false;
-        })
         .catch(error => {
-            console.error('Error:', error);
-            alert("डाटा सिटमा पठाउन समस्या भयो । कृपया पुनः प्रयास गर्नुहोस् ।");
-            submitBtn.innerText = "विवरण बुझाउनुहोस्";
-            submitBtn.disabled = false;
+            console.error('Background Sheet Error:', error);
         });
     }
 </script>
