@@ -201,15 +201,31 @@
             margin: 0 2px;
         }
 
+        /* फोटो जस्तै हुबहु म्यासेजको डिजाइन */
         .already-submitted {
             text-align: center;
-            padding: 30px 10px;
+            padding: 40px 10px 20px 10px;
             color: #1e3a8a;
+            animation: fadeIn 0.4s ease-in-out;
         }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
         .already-submitted h2 {
-            font-size: 20px;
+            font-size: 24px;
             color: #dc2626;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+        
+        .already-submitted p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #334155;
+            margin-bottom: 8px;
         }
         
         a {
@@ -300,18 +316,14 @@
 </div>
 
 <script>
-    window.onload = function() {
-        if (localStorage.getItem('cabinetFormSubmitted') === 'true') {
-            showAlreadySubmittedMessage();
-        }
-    };
+    // अब पेज लोड हुँदा सधैं पुरै डिजाइन (फारम) नै देखिन्छ
 
     function showAlreadySubmittedMessage() {
         document.getElementById('formBody').innerHTML = `
             <div class="already-submitted">
                 <h2>⚠️ विवरण अस्विकृत !</h2>
-                <p>तपाईँको मोबाइल नम्बर वा यो डिभाइसबाट विवरण पहिले नै बुझाइसकिएको छ।</p>
-                <p style="font-size:13px; color:#64748b; margin-top:20px;">यदि केही विवरण सच्याउनु पर्ने भएमा व्यवस्थापकलाई सम्पर्क गर्नुहोला।</p>
+                <p>तपाईँको मोबाइल नम्बरबाट विवरण पहिले नै बुझाइसकिएको छ।</p>
+                <p style="font-size:14px; color:#64748b; margin-top:24px;">यदि केही विवरण सच्याउनु पर्ने भएमा व्यवस्थापकलाई सम्पर्क गर्नुहोला।</p>
             </div>
         `;
     }
@@ -376,8 +388,8 @@
             routeTime = selectedOption.getAttribute('data-time');
         }
 
-        // स्टेप १ बाट प्राप्त भएको नयाँ Deployment URL यहाँ राख्नुहोस्
-        const googleWebAppUrl = "तपाईंको_नयाँ_गुगल_वेब_एप_युआरएल_यहाँ_पेस्ट_गर्नुहोस्"; 
+        // आफ्नो नयाँ Google Deployment URL यहाँ पेस्ट गर्नुहोस्
+        const googleWebAppUrl = "https://script.google.com/macros/s/AKfycbwPgKJ0q4kZKkkyHzj4MkEim6W9x3uY6gTmDblBG9hRUjPvzyZY-eQuu3lYIwKw6WU/exec"; 
 
         const formData = {
             fullName: fullName,
@@ -386,7 +398,7 @@
             location: needTransport === 'yes' ? locationName + " (" + routeTime + ")" : "आवश्यकता छैन"
         };
 
-        // पहिले ब्याकइन्डमा पठाई डुप्लिकेट नम्बर जाँच गर्ने
+        // सिट ब्याकइन्डमा पठाएर जाँच गर्ने
         fetch(googleWebAppUrl, {
             method: 'POST',
             body: JSON.stringify(formData)
@@ -394,14 +406,10 @@
         .then(response => response.json())
         .then(res => {
             if (res.status === "duplicate") {
-                // यदि नम्बर पहिले नै सिटमा उपलब्ध छ भने अलर्ट दिने, ह्वाट्सएप नखोल्ने र ब्लक स्क्रिन देखाउने
-                alert("⚠️ यो मोबाइल नम्बर पहिले नै दर्ता भइसकेको छ! त्यसैले ह्वाट्सएप सन्देश पठाइने छैन।");
-                localStorage.setItem('cabinetFormSubmitted', 'true');
+                // १. यदि डाटा डुप्लिकेट भएमा ह्वाट्सएप विन्डो नखोली सिधै फोटो अनुसारको ब्लक मेसेज दिने
                 showAlreadySubmittedMessage();
             } else {
-                // यदि नम्बर नयाँ छ भने मात्र ह्वाट्सएप म्यासेज विन्डो खोल्ने
-                localStorage.setItem('cabinetFormSubmitted', 'true');
-                
+                // २. यदि नम्बर नयाँ छ भने मात्र ह्वाट्सएप खुल्ने र फारम क्लियर/ब्लक स्टेटमा जाने
                 let whatsappMessage = `नमस्ते लायन मोहन अर्याल ज्यू,\n\n`;
                 whatsappMessage += `*Cabinet Schooling (2026-2027)*\n`;
                 whatsappMessage += `*Transportation Management Details*\n\n`;
@@ -419,14 +427,20 @@
                 const whatsappUrl = `https://api.whatsapp.com/send?phone=${targetNumber}&text=${encodeURIComponent(whatsappMessage)}`;
                 
                 window.open(whatsappUrl, '_blank');
-                showAlreadySubmittedMessage();
+                
+                // सफलतापूर्वक विवरण गएपछि धन्यवाद मेसेज वा फारम रिसेट गर्ने
+                document.getElementById('transportForm').reset();
+                toggleLocationSelect();
+                submitBtn.innerText = originalBtnText;
+                submitBtn.disabled = false;
+                alert("विवरण सफलतापूर्वक दर्ता भयो र ह्वाट्सएप खोलिएको छ।");
             }
         })
         .catch(error => {
             console.error('Error:', error);
             submitBtn.innerText = originalBtnText;
             submitBtn.disabled = false;
-            alert("सर्भरसँग जडान हुन सकेन। कृपया इन्टरनेट जाँच गरी पुनः प्रयास गर्नुहोला।");
+            alert("सर्भर व्यस्त छ। कृपया केही बेरमा पुनः प्रयास गर्नुहोला।");
         });
     }
 </script>
