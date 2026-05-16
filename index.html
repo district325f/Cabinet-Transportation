@@ -1,1 +1,270 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cabinet Schooling - Transportation Management</title>
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #3b82f6;
+            --background-color: #f3f4f6;
+            --card-background: #ffffff;
+            --text-color: #1f2937;
+            --border-color: #d1d5db;
+        }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, 'Arial';
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .form-container {
+            background-color: var(--card-background);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 550px;
+            box-sizing: border-box;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 15px;
+        }
+
+        .header h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header h2 {
+            color: var(--secondary-color);
+            margin: 5px 0 0 0;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .header h3 {
+            margin: 10px 0 0 0;
+            font-size: 15px;
+            color: #1e40af;
+            background: #dbeafe;
+            display: inline-block;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #374151;
+            font-size: 15px;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 15px;
+            box-sizing: border-box;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        .conditional-section {
+            display: none;
+            background-color: #f9fafb;
+            padding: 15px;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 4px;
+            margin-top: 15px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .submit-btn {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        .note-box {
+            margin-top: 25px;
+            padding: 15px;
+            background-color: #fffbeb;
+            border: 1px solid #fef3c7;
+            border-left: 4px solid #f59e0b;
+            border-radius: 6px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .note-title {
+            font-weight: bold;
+            color: #b45309;
+            margin-bottom: 5px;
+        }
+
+        .highlight-time {
+            font-weight: bold;
+            color: #dc2626;
+            background-color: #fee2e2;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <div class="header">
+        <h1>Cabinet Schooling</h1>
+        <h2>2026-2027</h2>
+        <h3>Transportation Management</h3>
+    </div>
+
+    <form id="transportForm" onsubmit="handleSubmit(event)">
+        <div class="form-group">
+            <label for="fullName">तपाईँको नाम:</label>
+            <input type="text" id="fullName" placeholder="पुरा नाम लेख्नुहोस्" required>
+        </div>
+
+        <div class="form-group">
+            <label for="designation">पद:</label>
+            <input type="text" id="designation" placeholder="तपाईँको पद" required>
+        </div>
+
+        <div class="form-group">
+            <label for="contactNo">सम्पर्क नं.:</label>
+            <input type="text" id="contactNo" placeholder="मोबाइल नम्बर" pattern="[0-9]{10}" title="कृपया १० अंकको मोबाइल नम्बर राख्नुहोस्" required>
+        </div>
+
+        <div class="form-group">
+            <label for="needTransport">स्कुलिङमा जान यातायातको आवश्यकता छ?</label>
+            <select id="needTransport" onchange="toggleLocationSelect()" required>
+                <option value="" disabled selected>--- छनौट गर्नुहोस् ---</option>
+                <option value="yes">छ</option>
+                <option value="no">छैन</option>
+            </select>
+        </div>
+
+        <div class="form-group conditional-section" id="locationGroup">
+            <label for="locationSelect">कृपया आफूलाई यातायातको सुविधाको लागि पायक पर्ने स्थान छनौट गर्नुहोस्:</label>
+            <select id="locationSelect" onchange="updateNote()">
+                <option value="" disabled selected>--- स्थान छनौट गर्नुहोस् ---</option>
+                <option value="aradhana" data-time="६:४५ बजे">आराधना पेट्रोल पम्प</option>
+                <option value="baneshwor" data-time="७:०० बजे">नयाँ बानेश्वर, चोक</option>
+                <option value="koteshwor" data-time="७:१५ बजे">कोटेश्वर चोक</option>
+                <option value="satdobato" data-time="७:३० बजे">सातदोबाटो चोक</option>
+            </select>
+        </div>
+
+        <button type="submit" class="submit-btn">विवरण बुझाउनुहोस्</button>
+    </form>
+
+    <div class="note-box" id="infoNote">
+        <div class="note-title">* पुनश्च:</div>
+        <span id="dynamicNoteText">कृपया फारम भर्नुहोस्। तपाईँले छनौट गर्नुभएको स्थानको आधारमा यहाँ समय र सम्पर्क विवरण देखापर्नेछ।</span>
+    </div>
+</div>
+
+<script>
+    // यातायातको आवश्यकता अनुसार स्थान छनौट देखाउने वा लुकाउने प्रकार्य
+    function toggleLocationSelect() {
+        const needTransport = document.getElementById('needTransport').value;
+        const locationGroup = document.getElementById('locationGroup');
+        const locationSelect = document.getElementById('locationSelect');
+        
+        if (needTransport === 'yes') {
+            locationGroup.style.display = 'block';
+            locationSelect.required = true;
+        } else {
+            locationGroup.style.display = 'none';
+            locationSelect.required = false;
+            locationSelect.value = '';
+        }
+        updateNote();
+    }
+
+    // छनौट गरिएको स्थानको आधारमा पुनश्च विवरण अपडेट गर्ने प्रकार्य
+    function updateNote() {
+        const needTransport = document.getElementById('needTransport').value;
+        const locationSelect = document.getElementById('locationSelect');
+        const noteText = document.getElementById('dynamicNoteText');
+        
+        if (needTransport === 'no') {
+            noteText.innerHTML = "तपाईँले यातायातको आवश्यकता पर्दैन भनी छनौट गर्नुभएको छ। धन्यवाद!";
+            return;
+        }
+
+        if (locationSelect.value) {
+            const selectedOption = locationSelect.options[locationSelect.selectedIndex];
+            const locationName = selectedOption.text;
+            const routeTime = selectedOption.getAttribute('data-time');
+            
+            noteText.innerHTML = `कृपया आफुले छनौट गरेको स्थान <strong>"${locationName}"</strong> मा तोकिएको समय <span class="highlight-time">${routeTime}</span> मा मेला भई दिनुहुन अनुरोध गर्दछौँ। साथै यातायात सम्बन्धि जानकारीका लागि <strong>लायन मोहन अर्याल (<a href="tel:9851165500">९८५११६५५००</a>)</strong> लाई सम्पर्क गर्नुहोला।`;
+        } else {
+            noteText.innerHTML = "कृपया आफूलाई पायक पर्ने स्थान छनौट गर्नुहोस्। त्यसपछि यहाँ तोकिएको समय तालिका उपलब्ध हुनेछ।";
+        }
+    }
+
+    // Form Submit Functionality
+    function handleSubmit(event) {
+        event.preventDefault();
+        alert("विवरण सफलतापूर्वक दर्ता भयो! धन्यवाद।");
+    }
+</script>
+
+</body>
+</html>
