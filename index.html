@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cabinet Schooling - Transportation Management</title>
+    <title>DLLI/ELLI - Transportation Management</title>
     <style>
         :root {
             --primary-gradient: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
@@ -281,7 +281,7 @@
             </div>
 
             <div class="form-group">
-                <label for="needTransport">स्कुलिङमा जान यातायातको आवश्यकता छ ? <span class="required">*</span></label>
+                <label for="needTransport">DLLI/ALLI मा जान यातायातको आवश्यकता छ ? <span class="required">*</span></label>
                 <select id="needTransport" onchange="toggleLocationSelect()" required>
                     <option value="" disabled selected>--- छनौट गर्नुहोस् ---</option>
                     <option value="yes">छ</option>
@@ -293,10 +293,10 @@
                 <label for="locationSelect">कृपया आफूलाई यातायातको सुविधाको लागि पायक पर्ने स्थान छनौट गर्नुहोस्: <span class="required">*</span></label>
                 <select id="locationSelect" onchange="updateNote()">
                     <option value="" disabled selected>--- स्थान छनौट गर्नुहोस् ---</option>
-                    <option value="आराधना पेट्रोल पम्प, सिफल" data-time="६:४५ बजे">आराधना पेट्रोल पम्प, सिफल</option>
-                    <option value="नयाँ बानेश्वर चोक" data-time="७:०० बजे">नयाँ बानेश्वर चोक</option>
-                    <option value="कोटेश्वर चोक" data-time="७:१५ बजे">कोटेश्वर चोक</option>
-                    <option value="सातदोबाटो चोक" data-time="७:३० बजे">सातदोबाटो चोक</option>
+                    <option value="आराधना पेट्रोल पम्प, सिफल" data-time="७:०० बजे">आराधना पेट्रोल पम्प, सिफल</option>
+                    <option value="नयाँ बानेश्वर चोक" data-time="७:१५ बजे">नयाँ बानेश्वर चोक</option>
+                    <option value="कोटेश्वर चोक" data-time="७:३० बजे">कोटेश्वर चोक</option>
+                    <option value="सातदोबाटो चोक" data-time="७:४५ बजे">सातदोबाटो चोक</option>
                 </select>
             </div>
 
@@ -421,7 +421,7 @@
                     whatsappMessage += `⏰ *समय:* ${routeTime}\n`;
                 }
 
-                const targetNumber = "9779851165500";
+                const targetNumber = "9779861141686";
                 const whatsappUrl = `https://api.whatsapp.com/send?phone=${targetNumber}&text=${encodeURIComponent(whatsappMessage)}`;
                 
                 window.open(whatsappUrl, '_blank');
